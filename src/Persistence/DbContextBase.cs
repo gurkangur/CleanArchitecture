@@ -15,7 +15,7 @@ namespace Persistence
         public DbContextBase(DbContextOptions options) : base(options)
         {
             this.ChangeTracker.LazyLoadingEnabled = false;
-            this.ChangeTracker.AutoDetectChangesEnabled = false; 
+            this.ChangeTracker.AutoDetectChangesEnabled = false;
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -39,12 +39,15 @@ namespace Persistence
         }
         private void HandleSoftDeletableEntities()
         {
+            string currentUser = Thread.CurrentPrincipal?.Identity?.Name;
             var entries = ChangeTracker.Entries().Where(x => x.Entity is ISoftDelete && x.State == EntityState.Deleted);
             foreach (var entry in entries)
             {
                 entry.State = EntityState.Modified;
                 ISoftDelete entity = (ISoftDelete)entry.Entity;
                 entity.IsDeleted = true;
+                entity.DeleterUser = currentUser;
+                entity.DeletionTime = DateTime.Now;
             }
         }
         private void HandleAuditableEntities()
