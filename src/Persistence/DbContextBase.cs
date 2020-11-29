@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Domain.Common;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -10,7 +11,7 @@ using Persistence.Extensions;
 
 namespace Persistence
 {
-    public abstract class DbContextBase : DbContext
+    public class DbContextBase : DbContext
     {
         public DbContextBase(DbContextOptions options) : base(options)
         {
@@ -86,5 +87,7 @@ namespace Persistence
                 }
             }
         }
+
+        DbSet<Category> Categories { get; set; }
     }
 }
