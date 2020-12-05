@@ -4,6 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Domain.Common;
+using Domain.Paging.Extensions;
+using Domain.Paging.Requests;
+using Domain.Paging.Responses;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -223,6 +226,17 @@ namespace Persistence.Repositories
             entity = Update(entity);
             return Task.FromResult(entity);
         }
+
+        public PagedResponse<TEntity> ToPage(PagedRequest request)
+        {
+           return GetAll().ToPage(request);
+        }
+
+        public Task<PagedResponse<TEntity>> ToPageAsync(PagedRequest request)
+        {
+            return GetAll().ToPageAsync(request);
+        }
+
         protected virtual void AttachIfNot(TEntity entity)
         {
             var entry = _context.ChangeTracker.Entries().FirstOrDefault(ent => ent.Entity == entity);

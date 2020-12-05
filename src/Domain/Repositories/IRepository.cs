@@ -4,6 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Domain.Common;
+using Domain.Paging.Requests;
+using Domain.Paging.Responses;
 
 namespace Domain.Repositories
 {
@@ -14,6 +16,8 @@ namespace Domain.Repositories
         Task<List<TEntity>> GetAllListAsync();
         List<TEntity> GetAllList(Expression<Func<TEntity, bool>> predicate);
         Task<List<TEntity>> GetAllListAsync(Expression<Func<TEntity, bool>> predicate);
+        PagedResponse<TEntity> ToPage(PagedRequest request);
+        Task<PagedResponse<TEntity>> ToPageAsync(PagedRequest request);
         TEntity Get(TPrimaryKey id);
         Task<TEntity> GetAsync(TPrimaryKey id);
         TEntity Single(Expression<Func<TEntity, bool>> predicate);
