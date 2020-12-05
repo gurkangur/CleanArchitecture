@@ -11,7 +11,7 @@ namespace Application.Common.Behaviours.Logging
     {
         private readonly ILogger logger;
 
-        public LoggingBehavior(ILogger logger)
+        public LoggingBehavior(ILogger<TRequest> logger)
         {
             this.logger = logger;
         }
